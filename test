@@ -1,98 +1,12 @@
--- [[ MM2 SKIN CHANGER - XENO EDITION ]] --
--- Questo script combina i tuoi dati con la logica di cambio modello
+--[[
+ .____                  ________ ___.    _____                           __                
+ |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
+ |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
+ |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
+ |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
+         \/          \/         \/    \/                \/     \/     \/                   
+          \_Welcome to LuaObfuscator.com   (Alpha 0.10.9) ~  Much Love, Ferib 
 
-local SkinData = {
-    ["Gingerscope"] = {
-        Meta = { ItemName = "Gingerscope", ItemType = "Gun" },
-        Model = {
-            Children = {
-                { Class = "MeshPart", Name = "Scope", Props = { Color = Color3.fromRGB(129, 181, 204), MeshId = "rbxassetid://15374679651", RelCF = CFrame.new(0, 0.48315, 0.20723), Size = Vector3.new(0.18712, 0.18712, 1.41355), Transparency = 0.35 } },
-            },
-            Class = "MeshPart", Name = "GunDisplay", Props = { Color = Color3.fromRGB(143, 34, 34), MeshId = "rbxassetid://15408602183", RelCF = CFrame.new(0, 0, 0), Size = Vector3.new(0.2697, 1.25815, 4.20871), TextureID = "rbxassetid://15409041564" }
-        }
-    },
-    ["XenoGun"] = {
-        Meta = { ItemName = "Xenoshot", ItemType = "Gun" },
-        Model = {
-            Children = {},
-            Class = "MeshPart", Name = "GunDisplay", Props = { Color = Color3.fromRGB(143, 34, 34), MeshId = "rbxassetid://96867436912658", RelCF = CFrame.new(0, 0, 0), Size = Vector3.new(0.28155, 1.31834, 2.66752), TextureID = "rbxassetid://103568875118220" }
-        }
-    },
-    ["Scythe"] = {
-        Meta = { ItemName = "Batwing", ItemType = "Knife" },
-        Model = {
-            Children = {},
-            Class = "Part", Name = "KnifeDisplay", Props = { Color = Color3.fromRGB(163, 162, 165), RelCF = CFrame.new(0, 0, 0), Size = Vector3.new(0.25, 2.9, 1.6) }
-        }
-    },
-    -- Nota: Ho inserito i principali per esempio. 
-    -- Per aggiungere tutte le altre, basta copiare i blocchi dal tuo script originale qui dentro.
-}
+]]--
 
--- LOGICA DI CAMBIO SKIN (IL MOTORE)
-local function ApplySkin(skinName)
-    local data = SkinData[skinName]
-    if not data then 
-        print("Skin non trovata nel database!") 
-        return 
-    end
-
-    local char = game.Players.LocalPlayer.Character
-    if not char then return end
-
-    -- Cerca l'arma equipaggiata
-    local weapon = char:FindFirstChildOfClass("Tool") or char:FindFirstChild("Knife") or char:FindFirstChild("Gun")
-    if not weapon then
-        print("Equippa prima l'arma!")
-        return
-    end
-
-    local handle = weapon:FindFirstChild("Handle")
-    if not handle then return end
-
-    -- Pulizia vecchia skin
-    for _, v in pairs(handle:GetChildren()) do
-        if v:IsA("SpecialMesh") or v:IsA("MeshPart") or v:IsA("Decal") then
-            v:Destroy()
-        end
-    end
-
-    -- Applicazione nuova skin (Semplificata per compatibilità Xeno)
-    local modelData = data.Model
-    if modelData.Class == "MeshPart" then
-        local mesh = Instance.new("SpecialMesh", handle)
-        mesh.MeshId = modelData.Props.MeshId or ""
-        mesh.TextureId = modelData.Props.TextureID or ""
-        handle.Color = modelData.Props.Color or Color3.new(1,1,1)
-    elseif modelData.Class == "Part" then
-        handle.Color = modelData.Props.Color or Color3.new(1,1,1)
-    end
-    
-    print("Skin " .. skinName .. " applicata con successo!")
-end
-
--- INTERFACCIA UTENTE SEMPLICE
-local ScreenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
-local Frame = Instance.new("Frame", ScreenGui)
-Frame.Size = UDim2.new(0, 200, 0, 100)
-Frame.Position = UDim2.new(0, 50, 0, 50)
-Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-
-local TextBox = Instance.new("TextBox", Frame)
-TextBox.Size = UDim2.new(0, 180, 0, 40)
-TextBox.Position = UDim2.new(0, 10, 0, 10)
-TextBox.PlaceholderText = "Nome Skin (es: XenoGun)"
-TextBox.Text = ""
-
-local Button = Instance.new("TextButton", Frame)
-Button.Size = UDim2.new(0, 180, 0, 40)
-Button.Position = UDim2.new(0, 10, 0, 60)
-Button.Text = "Change Skin"
-Button.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
-Button.TextColor3 = Color3.new(1,1,1)
-
-Button.MouseButton1Click:Connect(function()
-    ApplySkin(TextBox.Text)
-end)
-
-print("Xeno Skin Changer Caricato!")
+local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit ;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;local function v7(v24,v25) local v26={};for v41=1, #v24 do v6(v26,v0(v4(v1(v2(v24,v41,v41 + 1 )),v1(v2(v25,1 + (v41% #v25) ,1 + (v41% #v25) + 1 )))%256 ));end return v5(v26);end local v8=tonumber;local v9=string[v7("\211\218\207\32","\126\177\163\187\69\134\219\167")];local v10=string[v7("\32\197\43\215","\156\67\173\74\165")];local v11=string[v7("\39\162\75","\38\84\215\41\118\220\70")];local v12=string[v7("\87\5\55\16","\158\48\118\66\114")];local v13=string[v7("\185\33\0","\155\203\68\112\86\19\197")];local v14=table[v7("\69\210\56\255\65\108","\152\38\189\86\156\32\24\133")];local v15=table[v7("\245\89\180\67\238\67","\38\156\55\199")];local v16=math[v7("\164\121\121\48\3","\35\200\29\28\72\115\20\154")];local v17=getfenv or function() return _ENV;end ;local v18=setmetatable;local v19=pcall;local v20=select;local v21=unpack or table[v7("\12\177\193\222\142\39","\84\121\223\177\191\237\76")] ;local v22=tonumber;local function v23(v27,v28,...) local v29=2 -1 ;local v30;v27=v12(v11(v27,5),v7("\245\24","\161\219\54\169\192\90\48\80"),function(v42) if ((428<1804) and (v9(v42,5 -3 )==(156 -75))) then local v100=0;while true do if (v100==(0 -0)) then v30=v8(v11(v42,620 -(555 + 64) ,1));return "";end end else local v101=v10(v8(v42,16));if v30 then local v110=0;local v111;while true do if (v110==1) then return v111;end if (v110==0) then v111=v13(v101,v30);v30=nil;v110=1;end end else return v101;end end end);local function v31(v43,v44,v45) if (v45 or ((5524 -(857 + 74))<=2672) or (3325>(5181 -(367 + 201)))) then local v102=(v43/((929 -(214 + 713))^(v44-1)))%(2^(((v45-(1 + 0)) -(v44-1)) + 1 + 0)) ;return v102-(v102%(878 -(282 + 595))) ;else local v103=2^(v44-1) ;return (((v43%(v103 + v103))>=v103) and 1) or (1637 -(1523 + 114)) ;end end local function v32() local v46=0;local v47;while true do if (v46==1) then return v47;end if (v46==0) then v47=v9(v27,v29,v29);v29=v29 + 1 ;v46=1 + 0 ;end end end local function v33() local v48,v49=v9(v27,v29,v29 + 2 );v29=v29 + 2 ;return (v49 * (364 -108)) + v48 ;end local function v34() local v50=0;local v51;local v52;local v53;local v54;while true do if (v50==(1066 -(68 + 997))) then return (v54 * (16778486 -(226 + 1044))) + (v53 * (285370 -219834)) + (v52 * 256) + v51 ;end if (v50==(117 -(32 + 85))) then v51,v52,v53,v54=v9(v27,v29,v29 + 3 + 0 );v29=v29 + 1 + 3 ;v50=1;end end end local function v35() local v55=v34();local v56=v34();local v57=1;local v58=(v31(v56,958 -(892 + 65) ,47 -27 ) * ((3 -1)^(58 -26))) + v55 ;local v59=v31(v56,21,381 -(87 + 263) );local v60=((v31(v56,212 -(67 + 113) )==1) and  -(1 + 0)) or 1 ;if (v59==0) then if (v58==0) then return v60 * (0 -0) ;else local v112=0 + 0 ;while true do if ((0 -0)==v112) then v59=1;v57=0;break;end end end elseif ((v59==2047) or ((5902 -(802 + 150))<=4553)) then return ((v58==0) and (v60 * (1/0))) or (v60 * NaN) ;end return v16(v60,v59-1023 ) * (v57 + (v58/((5 -3)^52))) ;end local function v36(v61) local v62=0 -0 ;local v63;local v64;while true do if (v62==1) then v63=v11(v27,v29,(v29 + v61) -(1 + 0) );v29=v29 + v61 ;v62=999 -(915 + 82) ;end if (v62==(8 -5)) then return v14(v64);end if ((0 + 0)==v62) then v63=nil;if ((2665<=3933) and  not v61) then v61=v34();if (((4303 -1030)==3273) and (v61==0)) then return "";end end v62=1188 -(1069 + 118) ;end if (v62==(4 -2)) then v64={};for v113=1 -0 , #v63 do v64[v113]=v10(v9(v11(v63,v113,v113)));end v62=1 + 2 ;end end end local v37=v34;local function v38(...) return {...},v20("#",...);end local function v39() local v65={};local v66={};local v67={};local v68={v65,v66,nil,v67};local v69=v34();local v70={};for v78=1,v69 do local v79=v32();local v80;if ((3824>409) and (v79==(792 -(368 + 423)))) then v80=v32()~=(0 -0) ;elseif (v79==(20 -(10 + 8))) then v80=v35();elseif ((2087==2087) and ((v79==(11 -8)) or ((1610 -(416 + 26))>(10076 -6920)))) then v80=v36();end v70[v78]=v80;end v68[3]=v32();for v82=1,v34() do local v83=v32();if ((v31(v83,1 + 0 ,1)==(0 -0)) or (3404>(4941 -(145 + 293)))) then local v106=430 -(44 + 386) ;local v107;local v108;local v109;while true do if ((1486 -(998 + 488))==v106) then v107=v31(v83,1 + 1 ,3);v108=v31(v83,4,6);v106=1 + 0 ;end if (v106==3) then if ((v31(v108,775 -(201 + 571) ,1141 -(116 + 1022) )==1) or (2652<196)) then v109[4]=v70[v109[4]];end v65[v82]=v109;break;end if (v106==(8 -6)) then if (v31(v108,1 + 0 ,3 -2 )==1) then v109[7 -5 ]=v70[v109[2]];end if ((4090<(5512 -(814 + 45))) and (v31(v108,4 -2 ,1 + 1 )==1)) then v109[3]=v70[v109[2 + 1 ]];end v106=888 -(261 + 624) ;end if (v106==1) then v109={v33(),v33(),nil,nil};if ((v107==0) or ((1995 -(630 + 793))>4486)) then v109[9 -6 ]=v33();v109[4]=v33();elseif ((1404==(6647 -5243)) and (v107==(1 + 0))) then v109[3]=v34();elseif ((v107==(6 -4)) or (3748<2212) or ((5253 -(760 + 987))<=1309)) then v109[3]=v34() -((1915 -(1789 + 124))^(782 -(745 + 21))) ;elseif ((2955==(1017 + 1938)) and ((v107==(7 -4)) or (1180==2180))) then v109[3]=v34() -((7 -5)^16) ;v109[1 + 3 ]=v33();end v106=2 + 0 ;end end end end for v84=1056 -(87 + 968) ,v34() do v66[v84-1 ]=v39();end return v68;end local function v40(v72,v73,v74) local v75=v72[4 -3 ];local v76=v72[2];local v77=v72[3];return function(...) local v86=v75;local v87=v76;local v88=v77;local v89=v38;local v90=1;local v91= -(1 + 0);local v92={};local v93={...};local v94=v20("#",...) -1 ;local v95={};local v96={};for v104=1413 -(447 + 966) ,v94 do if (v104>=v88) then v92[v104-v88 ]=v93[v104 + (2 -1) ];else v96[v104]=v93[v104 + (1818 -(1703 + 114)) ];end end local v97=(v94-v88) + (702 -(376 + 325)) ;local v98;local v99;while true do local v105=0;while true do if (v105==(1 -0)) then if (((4135<4817) and (v99<=(18 -12))) or (2903==1495)) then if (((1300 + 3246)>=(5010 -2735)) and (v99<=(16 -(9 + 5)))) then if (((1195 -(85 + 291))>=(1287 -(243 + 1022))) and (272==(1034 -762)) and (v99<=(0 + 0))) then v96[v98[1182 -(1123 + 57) ]]();elseif (v99>(1 + 0)) then v96[v98[256 -(163 + 91) ]]();else do return;end end elseif ((3162==3162) and (v99<=4)) then if ((100<=3123) and (v99>3)) then local v134=0;local v135;local v136;while true do if (v134==(1930 -(1869 + 61))) then v135=v98[1 + 1 ];v136=v96[v98[3]];v134=3 -2 ;end if (v134==(1 -0)) then v96[v135 + 1 + 0 ]=v136;v96[v135]=v136[v98[4]];break;end end else local v137=v98[2 -0 ];local v138,v139=v89(v96[v137](v21(v96,v137 + 1 ,v98[3 + 0 ])));v91=(v139 + v137) -(1475 -(1329 + 145)) ;local v140=0;for v161=v137,v91 do v140=v140 + 1 ;v96[v161]=v138[v140];end end elseif (v99==(976 -(140 + 831))) then v96[v98[1852 -(1409 + 441) ]]=v74[v98[721 -(15 + 703) ]];else local v143=0;local v144;local v145;while true do if (v143==0) then v144=v98[2];v145=v96[v98[2 + 1 ]];v143=439 -(262 + 176) ;end if ((1722 -(345 + 1376))==v143) then v96[v144 + (689 -(198 + 490)) ]=v145;v96[v144]=v145[v98[17 -13 ]];break;end end end elseif ((v99<=(21 -12)) or (2369>(5635 -(696 + 510)))) then if (v99<=(14 -7)) then v96[v98[2]]=v98[3];elseif ((4095>=(4445 -(1091 + 171))) and ((v99>8) or ((221 + 1148)>4987))) then local v146=0;local v147;local v148;local v149;local v150;while true do if (v146==(6 -4)) then for v177=v147,v91 do local v178=0 -0 ;while true do if (v178==(374 -(123 + 251))) then v150=v150 + (4 -3) ;v96[v177]=v148[v150];break;end end end break;end if (v146==(699 -(208 + 490))) then v91=(v149 + v147) -(1 + 0) ;v150=0;v146=2;end if (v146==(0 + 0)) then v147=v98[838 -(660 + 176) ];v148,v149=v89(v96[v147](v21(v96,v147 + 1 ,v98[3])));v146=1 + 0 ;end end else do return;end end elseif ((v99<=11) or (3711<1008)) then if ((v99==(212 -(14 + 188))) or ((1538 -(534 + 141))>=(1843 + 2741)) or ((928 + 121)<=(872 + 34))) then v96[v98[3 -1 ]]=v74[v98[3]];else v96[v98[2 -0 ]]=v98[3];end elseif ((v99>12) or ((2030 -1306)>=1668)) then local v155=0 + 0 ;local v156;while true do if ((0 + 0)==v155) then v156=v98[2];v96[v156]=v96[v156](v21(v96,v156 + (397 -(115 + 281)) ,v91));break;end end else local v157=v98[4 -2 ];v96[v157]=v96[v157](v21(v96,v157 + 1 ,v91));end v90=v90 + 1 + 0 ;break;end if (v105==0) then v98=v86[v90];v99=v98[2 -1 ];v105=1;end end end end;end return v40(v39(),{},v28)(...);end return v23(v7("\101\109\44\100\25\23\83\20\25\18\80\118\25\99\83\20\25\18\86\6\31\100\86\116\31\22\87\118\30\22\87\119\31\27\86\0\31\21\80\118\25\22\83\20\25\18\86\114\31\19\86\1\31\23\80\118\25\21\83\20\25\18\84\125\27\115\87\113\30\18\84\114\31\23\87\113\25\17\85\116\26\115\80\117\31\26\82\20\30\22\87\117\30\17\83\4\27\115\82\3\30\16\86\116\30\21\82\0\31\21\86\124\30\22\86\125\30\23\86\119\30\23\87\118\31\23\87\119\31\17\86\3\31\103\87\113\31\23\86\0\30\22\82\0\31\17\86\3\31\102\82\3\26\17\83\116\28\115\87\124\27\100\86\1\31\19\86\124\31\103\82\3\30\16\86\112\31\20\87\118\27\100\86\125\31\23\86\116\31\22\87\118\27\100\86\1\31\19\86\124\31\103\82\3\31\97\86\3\31\19\86\113\31\27\86\0\31\21\85\3\30\17\86\118\30\16\82\20\31\23\86\0\27\103\86\6\30\23\86\116\25\17\82\125\26\115\80\117\31\26\82\20\30\22\87\117\30\17\83\4\27\115\82\3\31\17\86\113\31\103\82\0\30\17\86\3\30\23\87\119\31\17\86\112\31\16\82\0\31\27\86\0\27\100\86\119\31\27\86\0\30\17\82\3\30\16\85\114\26\23\87\124\28\99\86\1\28\21\86\3\28\21\84\6\27\100\83\117\25\18\80\3\26\115\80\117\24\16\80\112\26\115\80\117\25\19\83\20\25\18\81\119\25\23\80\117\25\19\80\117\25\16\83\20\25\18\82\117\25\20\80\117\25\19\80\117\25\19\80\117\25\17\80\117\24\16\80\7\25\18\80\118\25\18\80\113\29\115\80\117\25\27\80\117\25\19\80\117\25\17\84\20\25\18\80\1\28\115\80\117\25\16\86\20\25\18\80\116\25\18\80\116\25\18\81\119\25\23\83\20\25\18\80\116\26\115\80\117\24\16\80\112\25\18\80\116\25\18\80\119\26\115\80\117\27\18\80\115\25\18\80\116\25\18\80\116\25\18\80\118\25\18\81\119\25\96\80\117\25\17\80\117\25\23\84\20\25\18\80\124\25\18\80\116\25\18\80\118\29\115\80\117\25\102\85\20\25\18\80\119\31\115\80\117\25\19\80\117\25\19\82\20\25\18\80\125\26\115\80\117\25\19\87\20\25\18","\69\41\34\96"),v17(),...);
