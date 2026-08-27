@@ -1,6 +1,7 @@
 -- ============================================================
 --  MM2 Trade Manager (FIXED NO-BLACK-SCREEN VERSION)
 -- ============================================================
+
 local Players           = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService  = game:GetService("UserInputService")
